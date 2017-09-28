@@ -1,6 +1,24 @@
 var request = require('request'),
     async = require('async');
 
+//https://stackoverflow.com/questions/1988349/array-push-if-does-not-exist
+// check if an element exists in array using a comparer function
+// comparer : function(currentElement)
+Array.prototype.inArray = function(comparer) { 
+    for(var i=0; i < this.length; i++) { 
+        if(comparer(this[i])) return true; 
+    }
+    return false; 
+}; 
+
+// adds an element to the array if it does not already exist using a comparer 
+// function
+Array.prototype.pushIfNotExist = function(element, comparer) { 
+    if (!this.inArray(comparer)) {
+        this.push(element);
+    }
+}; 
+
 module.exports = function () {
     var self = this,
         flatten = function(arrayOfArray) {
@@ -158,7 +176,9 @@ module.exports = function () {
                         if(slugs[index].ref) {
                             project.ref = slugs[index].ref;
                         }
-                        self.projects.push(project);
+                        self.projects.pushIfNotExist(project, function(e) {
+                          return project.id == e.id;
+                        });
                     }
                 });
             });
