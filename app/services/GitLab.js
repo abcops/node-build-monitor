@@ -42,7 +42,7 @@ module.exports = function () {
                     callback(err);
                     return;
                 }
-                async.mapLimit(pipelines, 10 function(pipeline, callback) {
+                async.mapLimit(pipelines, 10, function(pipeline, callback) {
                     getPipelineDetails(project, pipeline.id, callback);
                 }, callback);
             });
