@@ -79,9 +79,7 @@ module.exports = function () {
             ], callback);
         },
         getBuilds = function(callback) {
-            if(self.projects.length === 0) {
-                loadProjects();
-            }
+            loadProjects();
             async.mapLimit(self.projects, 10, getProjectPipelines, function(err, builds) {
                 if(err) {
                     callback(err);
