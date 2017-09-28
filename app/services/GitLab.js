@@ -42,7 +42,7 @@ module.exports = function () {
                     callback(err);
                     return;
                 }
-                async.map(pipelines, function(pipeline, callback) {
+                async.mapLimit(pipelines, 10 function(pipeline, callback) {
                     getPipelineDetails(project, pipeline.id, callback);
                 }, callback);
             });
@@ -64,7 +64,7 @@ module.exports = function () {
             if(self.projects.length === 0) {
                 loadProjects();
             }
-            async.map(self.projects, getProjectPipelines, function(err, builds) {
+            async.mapLimit(self.projects, 10, getProjectPipelines, function(err, builds) {
                 if(err) {
                     callback(err);
                     return;
